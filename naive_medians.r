@@ -19,3 +19,36 @@ assertthat::are_equal(naive_median, original_median)
 
 
 
+data <- readr::read_csv("/Users/vassilisanagnostopoulos/work/notebooks/datasets/supermarket_sales - Sheet1.csv")
+data %>% mutate(Date = )
+
+
+fixup_date <- function(x) {
+  days <- paste0("0", str_extract(x, "^\\d+"))
+  days <- str_sub(days, -2, -1)
+  rest <- str_extract(x, "/.+")
+  paste0(days, rest)
+}
+
+readr::read_csv("/Users/vassilisanagnostopoulos/work/notebooks/datasets/supermarket_sales - Sheet1.csv",
+                col_types = cols(
+                    `Invoice ID` = col_character(),
+                    Branch = col_character(),
+                    City = col_character(),
+                    `Customer type` = col_character(),
+                    Gender = col_character(),
+                    `Product line` = col_character(),
+                    `Unit price` = col_double(),
+                    Quantity = col_double(),
+                    `Tax 5%` = col_double(),
+                    Total = col_double(),
+                    Date = col_date("%m/%d/%Y"),
+                    Time = col_time(format = ""),
+                    Payment = col_character(),
+                    cogs = col_double(),
+                    `gross margin percentage` = col_double(),
+                    `gross income` = col_double(),
+                    Rating = col_double()
+                )
+                
+)
