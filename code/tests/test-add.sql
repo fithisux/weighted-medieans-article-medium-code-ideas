@@ -1,5 +1,5 @@
 BEGIN;
-  SELECT plan(5);
+  SELECT plan(8);
 
   truncate my_experiment;
   insert into my_experiment(price) values (30);
@@ -9,9 +9,23 @@ BEGIN;
   insert into my_experiment(price) values (30);
   insert into my_experiment(price) values (15);
 
-  SELECT ok(peso_median() = 17.5, 'my median test1');
-  SELECT ok(peso_occurences_median() = 17.5, 'my median test2');
-  SELECT ok(nearest_rank(0.5) = 15.0, 'my median test3');
+
+  SELECT ok(peso_median() = 17.5, 'my peso median test for experiment 1');
+  SELECT ok(peso_occurences_median() = 17.5, 'my peso occurence median test for experiment 1');
+  SELECT ok(nearest_rank(0.5) = 15.0, 'my nearest rank test for experiment 1');
+
+  truncate MY_EXPERIMENT;
+
+  insert into MY_EXPERIMENT(price) values (30);
+  insert into MY_EXPERIMENT(price) values (10);
+  insert into MY_EXPERIMENT(price) values (20);
+  insert into MY_EXPERIMENT(price) values (10);
+  insert into MY_EXPERIMENT(price) values (30);
+  insert into MY_EXPERIMENT(price) values (30);
+
+  SELECT ok(peso_median() = 25, 'my peso median test for experiment 2');
+  SELECT ok(peso_occurences_median() = 27.5, 'my peso occurence median test for experiment 2');
+  SELECT ok(nearest_rank(0.5) = 20.0, 'my nearest rank test for experiment 2');
 
   truncate MY_PARTITIONED_EXPERIMENT;
   insert into MY_PARTITIONED_EXPERIMENT(price, units, region) values (30, 5, 1);
