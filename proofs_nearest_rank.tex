@@ -1,0 +1,286 @@
+\documentclass[a4paper,11pt]{article} % define the title
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+}
+
+\urlstyle{same}
+
+\author{Vasilis.~Anagnostopoulos}
+\title{Proofs of some elementary facts on the weighted nearest rank}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\begin{document}
+% generates the title
+\maketitle
+% insert the table of contents \tableofcontents
+\begin{abstract}
+	In this note we prove two remarkable properties of the nearest rank when weights are employed. We use elementary properties to provide proofs and show that nearest rank is competitive to other percentile methods in simplicity. The properties also prove its consistency both when the weights are integral or not.
+	It supports the material presented in a \href{http://www.medium.com}{article about weighted medians} in medium.
+\end{abstract}
+
+As explained in \href{https://en.wikipedia.org/wiki/Percentile#The_nearest-rank_method}{The nearest rank method}, nearest rank is a good compromise in finding the percentile and asymptotically they are the same. The definition also extends naturally for the weighted case we are interested in.
+\par
+To this end, lets craft a "math friendly definition" that will be convenient enough to help us prove theorems. Suppose we are given  a series of weighted values, say $\{(x_{1},w_{1}),\ldots, (x_{m}, w_{m})\}$.  Since this series could model prices ($x$) and quantities ($w$) it is natural
+to assume that the weights are positive. Also we make the assumption that the series is sorted in increasing prices so that cumulative distribution function can be defined.
+To summarize, the constraints on this series take the form:
+
+\begin{align}
+w_{i} &\ge 0   &&\forall i  \label{eq1}  \\
+w_{i} &\ge w_{i-1}  && \forall i \ge 1 \label{eq2}
+\end{align}
+
+Now we are ready to give the definitions.
+\begin{defn}[Nearest Rank]
+\label{dfnnearestrank}
+We define the
+weighted $q$-nearest rank index as
+\begin{equation}
+m_{q} = \min \{ i : \frac{\sum_{j=1}^{i} w_{j}}{\sum_{j=1}^{m} w_{j}} \ge q \}
+\end{equation}
+
+and the weighted $q$-nearest rank is
+
+\begin{equation}
+x_{m_{q}}.
+\end{equation}
+\end{defn}
+
+\begin{rem}
+It is an easy task to prove that the definition given here and the one in Wikipedia are equivalent. Just match the definitions for the case where $w_{i}=1\text{      }\forall{i}$.
+\end{rem}
+We will find out that these definitions, even though they deviate somehow from  the common median ($q$-percentile), they satisfy some very desirable properties.
+
+\section{The invariant property of nearest rank for integral weights}
+In this section we prove the first interesting property of nearest rank. If the weights are integral and we "explode" the sequence then, the nearest rank calculated by definition \ref{dfnnearestrank} is the same whether we apply it on the original or the exploded sequence. 
+Consider as above a sequence of integral weighted samples satisfying (\ref{eq1}) and (\ref{eq2}). Its exploded version is just the same sequence with every value appearing as many times as its weight. In other words we replace this sequence
+
+\begin{equation}
+\label{unexploded}
+\{(x_{1},w_{1}), (x_{2},w_{2}),\ldots, (x_{m}, w_{m})\}
+\end{equation}
+
+with
+
+\begin{equation}
+\label{exploded}
+\{ \underbrace{(x_{1},1), \ldots, (x_{1}, 1)}_{w_{1}}, \underbrace{(x_{2}, 1), \ldots, (x_{2}, 1)}_{w_{2}}, \ldots, \underbrace{(x_{m},1), \ldots, (x_{m},1)}_{w_{m}} \}
+\end{equation}
+
+or equivalently
+
+\begin{equation}
+  \{ \underbrace{x_{1}, \ldots, x_{1}}_{w_{1}}, \underbrace{x_{2}, \ldots, x_{2}}_{w_{2}}, \ldots, \underbrace{x_{m}, \ldots, x_{m}}_{w_{m}} \}
+\end{equation}
+
+The "conditions" (\ref{eq1}) and (\ref{eq2}) are satisfied for the exploded sequence too. 
+
+\begin{theorem}
+Exploded and unexploded sequences have the same nearest rank.
+\end{theorem}
+
+\begin{proof}
+Smart counting is at the core of this theorem. Suppose the calculation on the "exploded sequence gives an index $n_{q}$. Suppose that the $x$ value at this position, has index $m'_{q}$ in the $1,\ldots,m$ interval. 
+What we are trying to prove is that
+
+\begin{equation}
+m'_{q} = m_{q}.
+\end{equation}
+
+Please, take your time to understand why. Now, by definition for the exploded sequence
+
+\begin{equation}
+ \frac{\sum_{j=1}^{n_{q}} 1}{\sum_{j=1}^{m} w_{j}} \ge q
+\end{equation}
+
+and consequently
+
+\begin{equation}
+ \frac{\sum_{j=1}^{m'_{q}} w_{j}}{\sum_{j=1}^{m} w_{j}} \ge q \Rightarrow  m'_{q} \ge m_{q}
+\end{equation}
+
+by the minimality of $m_{q}$. On the other hand, again by definition of the exploded sequence, the condition
+
+\begin{equation}
+\frac{\sum_{j=1}^{m_{q}} w_{j}}{\sum_{j=1}^{m} w_{j}} \ge q 
+\end{equation}
+
+implies 
+
+\begin{equation}
+\sum_{j=1}^{n_{q}} 1  \le \sum_{j=1}^{m_{q}} w_{j}.
+\end{equation}
+
+As a matter of fact we have the margin to increase $n_{q}$ until we change $x$. This means
+
+\begin{equation}
+m'_{q} \le m_{q}
+\end{equation}
+
+and the theorem is proved.
+\end{proof}
+
+\section{Nearest rank is accessible through samples}
+While the previous theorem was more or less expected the next property is unexpected and makes it super useful for non-integral weights. Suppose we would like to find the nearest rank of the following sequence satisfying (\ref{eq1}) and (\ref{eq2})
+
+\begin{equation}
+\label{nonintegralseq}
+\{(x_{1},w_{1}), (x_{2},w_{2}),\ldots, (x_{m}, w_{m})\}
+\end{equation}
+
+with nearest rank $x_{m_{q}}$. We add just another constraint now. the weights are positive probabilities. The weights now, sum to 1
+
+\begin{align}
+\sum_{i=1}^{m} w_{i} = 1
+\end{align}
+
+Suppose now we create another sequence 
+
+\begin{equation}
+\label{nonintegralseq}
+\{(x_{1},w'_{1}), (x_{2},w'_{2}),\ldots, (x_{m}, w'_{m})\}
+\end{equation}
+
+with weights
+
+\begin{equation}
+\label{newweights}
+w'_{i} = [N w_{i}] .
+\end{equation}
+
+In the equation above the reader can identify $[.]$ as the integer part. The hope is that in the limit of infinite $N$ the previous theorem applies.
+
+By the properties of the integer part
+
+\begin{equation}
+\label{ineqintegral}
+[x] \le x < [x] +1
+\end{equation}
+
+and consequently (as the original weights sum to 1)
+
+\begin{equation*}
+N -m < \sum_{i=1}^{m} [N w_{i} ]  \le N.
+\end{equation*}
+
+The new weights now do not sum to $N$, possibly something less but the error is bounded by $m$.  In order to correct this shortcoming we add $1$'s to the first $w'_{i}$ until we get to $N$. This amounts to selecting a decreasing sequence of $0/1$ numbers, say $k_{i}$ such that
+
+\begin{equation}
+\label{newweights}
+w''_{i} = [N w_{i}] + k_{i} .
+\end{equation}
+
+sums to $N$. Let the nearest rank of this sequence with weights $w''$ be $x_{m(N,q)}$ . 
+
+We also need a very technical assumption that will help convergence.
+
+\begin{defn}[Admissible $q$]
+We say that $q$ is admissible for the weights when
+
+\begin{equation}
+q \ne \sum_{i=1}^{k} w_{i} \text{    for all    }  k.
+\end{equation}
+\end{defn}
+
+
+We can state our theorem.
+
+\begin{theorem}
+Non integral nearest rank is accessible through integral computations when weights are probabilities and the $q$ is admissible for them. In other words
+
+\begin{equation}
+\label{newweights}
+\lim_{N \rightarrow \infty } \frac{x_{m(N,q) }}{N} = x_{m_{q}}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Smart counting is crucial here too. We also make use of \ref{ineqintegral}.
+
+By definition
+
+\begin{align}
+\label{lowerq1}
+\sum_{i=1}^{m_{q}} w_{i}  & \ge   q \Rightarrow \\
+\sum_{i=1}^{m_{q}}  (1 + [N w_{i}]) & \ge  N q \Rightarrow \\
+m +\sum_{i=1}^{m_{q}} (k_{i} + [N w_{i}])  & \ge  N q \Rightarrow \\
+\frac{\sum_{i=1}^{m_{q}} w''_{i}}  {\sum_{i=1}^{m} w''_{i}} & \ge q - \frac{m}{N}.
+\end{align}
+
+In a similar way,
+
+\begin{align}
+\label{lowerq2}
+\frac{\sum_{i=1}^{m(N,q)} w''_{i}}  {\sum_{i=1}^{m} w''_{i}}  & \ge   q \Rightarrow \\
+\sum_{i=1}^{m(N,q)}  (k_{i} + [N w_{i}]) & \ge  N q \Rightarrow \\
+m +\sum_{i=1}^{m(N,q)} N w_{i}  & \ge  N q \Rightarrow \\
+\sum_{i=1}^{m(N,q)} w_{i}  & \ge q - \frac{m}{N}.
+\end{align}
+
+We cannot have an infinite $N$ such that $m(N, q) < m_{q}$. This can be see from \ref{lowerq2} because then
+
+\begin{equation}
+\sum_{i=1}^{m_{q} -1 } w_{i} \ge \sum_{i=1}^{m(N,q)} w_{i}   \ge q - \frac{m}{N}.
+\end{equation}
+
+By taking the limits
+
+\begin{equation}
+\sum_{i=1}^{m_{q} -1 } w_{i}   \ge q 
+\end{equation}
+
+which contradicts the minimality of $m_{q}$. Consequently from a $N_{0}$ onwards
+
+\begin{equation}
+m(N,q) \ge m_{q}.
+\end{equation}
+
+
+Also we can see from \ref{lowerq1} that 
+
+\begin{equation}
+m(N,q) > m_{q} +1.
+\end{equation}
+
+cannot happen for infinite $N$ . So, from a $N_{0}$ onwards
+
+\begin{equation}
+\text{ either } m(N,q) = m_{q}  \text{ or } m(N,q) = m_{q} +1.
+\end{equation}
+
+
+This is where admissibility comes into play. Suppose that $m(N,q) = m_{q} +1$, again for infinite $N$. By the minimality of $m(N,q)$  and \ref{lowerq1} we have
+\begin{equation}
+q - \frac{m}{N} \le \frac{\sum_{i=1}^{m_{q})} w''_{i}}  {\sum_{i=1}^{m} w''_{i}}  <   q.
+\end{equation}
+
+By taking the limits
+
+\begin{equation}
+\frac{\sum_{i=1}^{m_{q})} w''_{i}}  {\sum_{i=1}^{m} w''_{i}} = q
+\end{equation}
+
+which contradicts the admissibility.
+\end{proof}
+
+
+The technical assumption come into play in order to select one of the two possible cases. Otherwise the integral median would oscillate. Take for example the value $3$ and $4$ with weights $\frac{1}{2}$ respectively. It is not difficult to see that
+
+\[
+m(N, \frac{1}{2}) =  \left \{ \begin{array}{lr}
+3  & \text{ for } N=\text{ even }\\
+4  & \text{ for } N=\text{ odd }
+\end{array}  \right \}
+\]
+
+are the two possible cases. No convergence can happen.
+\end{document}
