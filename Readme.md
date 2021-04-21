@@ -2,21 +2,20 @@
 ## _SQL weighted medians fast and easy_
 
 
-The purpose of this repository is to host code, snippets and ways to run the examples from the article.
+The purpose of this repository is to host code, figures and Latex code that support the article
 
-There is a docker compose file or PostgreSQL 13 + pgTap.
+"Quick and dirty medians on aggregated data. From the obscure to the obvious." on Medium (https://medium.com/)
 
-With postgresql you connect to a DB though the Azure Data Studio notebook.
+There is a docker compose file or PostgreSQL 13 + a pgTap setup.
 
-Please do a "Run All" in Data sttudio. The intent is to keep article simple, i did not include any Flyway.
+You connect to the PostgreSQL instance through the Azure Data Studio notebook.
+
+Please do a "Run All" in Azure Data Studio. The intent is to keep article simple, i did not include any Flyway.
 
 Maybe in the future I will add Flyway.
 
-After you do a run all. you can either run tests 
+After you do a run all. you can either run tests (see the artickle too)
 
-(see https://github.com/fithisux/weighted-medieans-article-medium-code-ideas/blob/master/docker-compose.yml)
+(see https://github.com/fithisux/weighted-medieans-article-medium-code-ideas/blob/master/code/docker-compose.yml)
 
 or start reading the notebook.
-
-Sooner or later the Medium article will give information in a more digestible form.
-
